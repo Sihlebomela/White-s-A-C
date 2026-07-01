@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>White's A/C — Craftsmanship The Way You Remember It</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coal:#170c06;
+    --coal2:#2a1610;
+    --brown-deep:#3a1c0c;
+    --orange:#e8571a;
+    --orange-deep:#c22a0e;
+    --gold:#f5b942;
+    --gold-bright:#ffd166;
+    --sky:#2f86bf;
+    --sky-deep:#123a54;
+    --cream:#fdf3e2;
+    --ink:#1c0f06;
+    --pixel-shadow: 0 0 0 3px var(--coal), 6px 6px 0 0 rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--coal);
+    color:var(--cream);
+    font-family:'Space Grotesk', sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{image-rendering:pixelated; image-rendering:crisp-edges; display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  .pixel{font-family:'Press Start 2P', monospace;}
+  .stencil{font-family:'VT323', monospace;}
+
+  ::selection{background:var(--gold); color:var(--ink);}
+
+  /* ---------- scanline / grain overlay ---------- */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:999;
+    background-image:repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, rgba(0,0,0,0.12) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode:multiply; opacity:.35;
+  }
+
+  /* ================= NAV ================= */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:500;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    background:linear-gradient(180deg, rgba(23,12,6,.95), rgba(23,12,6,.75));
+    border-bottom:3px solid var(--orange);
+    backdrop-filter: blur(4px);
+  }
+  .nav-brand{display:flex; align-items:center; gap:12px;}
+  .nav-badge-wrap{width:46px; height:46px; perspective:600px;}
+  .nav-badge{
+    width:100%; height:100%; transform-style:preserve-3d;
+    animation:spinY 7s linear infinite;
+  }
+  .nav-badge img{width:100%; height:100%; object-fit:contain; backface-visibility:visible;}
+  @keyframes spinY{ from{transform:rotateY(0deg);} to{transform:rotateY(360deg);} }
+  .nav-name{font-size:13px; letter-spacing:1px; color:var(--gold-bright);}
+  .nav-name span{color:var(--cream); display:block; font-size:9px; margin-top:4px; font-family:'Space Grotesk'; letter-spacing:2px; opacity:.75;}
+  .nav-cta{
+    background:var(--orange); color:var(--ink); padding:10px 16px;
+    font-size:11px; border:3px solid var(--coal);
+    box-shadow:4px 4px 0 rgba(0,0,0,.5);
+    transition:transform .15s ease;
+  }
+  .nav-cta:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 rgba(0,0,0,.5);}
+
+  /* ================= HERO ================= */
+  .hero{
+    position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:140px 24px 80px;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(245,185,66,.25), transparent 45%),
+      linear-gradient(160deg, var(--sky-deep) 0%, #1c5a80 22%, var(--orange) 62%, var(--orange-deep) 85%, var(--brown-deep) 100%);
+    overflow:hidden;
+    perspective:1000px;
+  }
+  .hero::before{ /* pixel sun glow */
+    content:''; position:absolute; right:8%; top:14%; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, var(--gold-bright), var(--orange) 60%, transparent 75%);
+    filter:blur(2px); opacity:.85; z-index:0;
+    animation:pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+
+  .cloud-row{position:absolute; left:0; right:0; bottom:0; height:38%; z-index:1; pointer-events:none;}
+  .pixel-cloud{
+    position:absolute; bottom:0; background:var(--coal); opacity:.55;
+    clip-path:polygon(0 100%,0 60%,8% 60%,8% 40%,16% 40%,16% 25%,32% 25%,32% 15%,55% 15%,55% 30%,70% 30%,70% 45%,85% 45%,85% 60%,100% 60%,100% 100%);
+  }
+
+  .hero-inner{
+    position:relative; z-index:5; display:flex; align-items:center; gap:60px; flex-wrap:wrap; justify-content:center; max-width:1180px; margin:0 auto;
+  }
+  .hero-badge-wrap{
+    width:260px; height:260px; perspective:1000px; flex-shrink:0;
+  }
+  .hero-badge{
+    width:100%; height:100%; transform-style:preserve-3d; will-change:transform;
+    filter:drop-shadow(0 18px 30px rgba(0,0,0,.55));
+  }
+  .hero-badge img{width:100%; height:100%; object-fit:contain;}
+
+  .hero-copy{max-width:600px;}
+  .eyebrow{
+    font-size:11px; letter-spacing:3px; color:var(--gold-bright);
+    background:rgba(0,0,0,.35); display:inline-block; padding:6px 12px; border:2px solid var(--gold);
+    margin-bottom:18px;
+  }
+  .hero-headline{
+    font-family:'VT323', monospace; font-size:clamp(48px,7vw,84px); line-height:.95;
+    color:var(--cream); text-shadow:4px 4px 0 var(--coal), 8px 8px 0 rgba(0,0,0,.35);
+    letter-spacing:1px;
+  }
+  .hero-headline em{font-style:normal; color:var(--gold-bright);}
+  .hero-sub{
+    margin-top:18px; font-size:17px; line-height:1.6; color:var(--cream); opacity:.92; max-width:520px;
+  }
+  .hero-badges{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;}
+  .mini-badge{
+    font-size:11px; background:rgba(23,12,6,.55); border:2px solid var(--gold);
+    padding:6px 10px; letter-spacing:.5px; color:var(--gold-bright);
+  }
+  .hero-actions{display:flex; gap:16px; margin-top:32px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 24px; font-size:14px; border:3px solid var(--coal); cursor:pointer;
+    box-shadow:5px 5px 0 rgba(0,0,0,.5); transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translate(-3px,-3px); box-shadow:8px 8px 0 rgba(0,0,0,.5);}
+  .btn-primary{background:var(--gold); color:var(--ink);}
+  .btn-ghost{background:transparent; color:var(--cream); border-color:var(--cream);}
+
+  .scroll-hint{
+    position:absolute; bottom:26px; left:50%; transform:translateX(-50%); z-index:5;
+    font-size:10px; letter-spacing:2px; color:var(--cream); opacity:.75;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .scroll-hint .chev{width:10px; height:10px; border-right:3px solid var(--gold); border-bottom:3px solid var(--gold); transform:rotate(45deg); animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(45deg);}50%{transform:translateY(6px) rotate(45deg);}}
+
+  /* ================= SECTION SHELL ================= */
+  section{position:relative; padding:100px 24px;}
+  .section-head{max-width:720px; margin:0 auto 56px; text-align:center;}
+  .section-eyebrow{font-family:'Press Start 2P'; font-size:10px; letter-spacing:2px; color:var(--orange);}
+  .section-title{font-family:'VT323'; font-size:clamp(34px,5vw,52px); margin-top:14px; color:var(--cream);}
+  .section-title span{color:var(--gold-bright);}
+  .section-desc{margin-top:14px; color:var(--cream); opacity:.75; font-size:16px; line-height:1.6;}
+
+  /* ================= SERVICES ================= */
+  .services{background:var(--coal2); border-top:3px solid var(--brown-deep); border-bottom:3px solid var(--brown-deep);}
+  .service-grid{
+    max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:22px; perspective:1200px;
+  }
+  @media(max-width:900px){.service-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:520px){.service-grid{grid-template-columns:1fr;}}
+  .service-card{
+    background:linear-gradient(160deg, var(--brown-deep), var(--coal));
+    border:3px solid var(--orange); padding:26px 20px; text-align:center;
+    transform-style:preserve-3d; transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow:6px 6px 0 rgba(0,0,0,.4);
+  }
+  .service-icon{
+    width:64px; height:64px; margin:0 auto 18px; position:relative;
+    background:var(--orange); border:3px solid var(--coal);
+    display:flex; align-items:center; justify-content:center; font-size:28px;
+    box-shadow:3px 3px 0 rgba(0,0,0,.4);
+  }
+  .service-card h3{font-family:'Press Start 2P'; font-size:12px; color:var(--gold-bright); letter-spacing:1px; margin-bottom:10px;}
+  .service-card p{font-size:14px; color:var(--cream); opacity:.75; line-height:1.55;}
+
+  /* ================= ABOUT / MASCOT ================= */
+  .about{background:var(--coal);}
+  .about-wrap{
+    max-width:1120px; margin:0 auto; display:flex; align-items:center; gap:64px; flex-wrap:wrap;
+  }
+  .about-frame-wrap{flex:1 1 420px; perspective:1200px; min-width:300px;}
+  .about-frame{
+    border:5px solid var(--gold); box-shadow:10px 10px 0 rgba(0,0,0,.5);
+    transform-style:preserve-3d; transition:transform .15s ease;
+    position:relative;
+  }
+  .about-frame img{width:100%; display:block;}
+  .about-frame::after{
+    content:''; position:absolute; inset:0; border:2px solid var(--coal); pointer-events:none;
+  }
+  .about-copy{flex:1 1 420px; min-width:300px;}
+  .about-copy h3{font-family:'VT323'; font-size:38px; color:var(--cream); margin-bottom:16px;}
+  .about-copy p{font-size:16px; line-height:1.75; color:var(--cream); opacity:.85; margin-bottom:16px;}
+  .license-strip{
+    display:flex; gap:14px; flex-wrap:wrap; margin-top:22px;
+  }
+  .license-chip{
+    font-family:'Press Start 2P'; font-size:9px; color:var(--ink); background:var(--gold);
+    padding:10px 14px; border:2px solid var(--coal); box-shadow:3px 3px 0 rgba(0,0,0,.4);
+  }
+
+  /* ================= WHY CHOOSE ================= */
+  .why{background:linear-gradient(180deg, var(--coal2), var(--coal));}
+  .why-grid{max-width:940px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media(max-width:700px){.why-grid{grid-template-columns:1fr;}}
+  .why-item{
+    display:flex; gap:16px; align-items:flex-start; background:rgba(232,87,26,.06);
+    border-left:4px solid var(--orange); padding:18px 20px;
+  }
+  .why-mark{
+    width:34px; height:34px; flex-shrink:0; background:var(--gold); border:2px solid var(--coal);
+    display:flex; align-items:center; justify-content:center; font-family:'Press Start 2P'; font-size:14px; color:var(--ink);
+  }
+  .why-item p{font-size:15px; line-height:1.6; color:var(--cream); opacity:.85;}
+  .why-item strong{display:block; color:var(--gold-bright); font-size:15px; margin-bottom:4px; font-family:'Space Grotesk'; font-weight:700;}
+
+  /* ================= CONTACT ================= */
+  .contact{
+    background:
+      radial-gradient(circle at 20% 20%, rgba(47,134,191,.35), transparent 50%),
+      linear-gradient(200deg, var(--orange-deep), var(--brown-deep) 60%, var(--coal) 100%);
+    text-align:center; border-top:3px solid var(--orange);
+  }
+  .contact-badge-wrap{width:120px; height:120px; margin:0 auto 20px; perspective:800px;}
+  .contact-badge{width:100%; height:100%; transform-style:preserve-3d; animation:spinY 9s linear infinite;}
+  .contact-badge img{width:100%; height:100%; object-fit:contain;}
+  .contact h2{font-family:'VT323'; font-size:clamp(36px,6vw,58px); color:var(--cream); text-shadow:3px 3px 0 var(--coal);}
+  .phone-big{
+    display:inline-block; margin:22px 0; font-family:'VT323'; font-size:clamp(40px,8vw,72px);
+    color:var(--gold-bright); letter-spacing:2px; text-shadow:4px 4px 0 var(--coal);
+  }
+  .contact-sub{font-size:15px; color:var(--cream); opacity:.85; max-width:480px; margin:0 auto 26px;}
+  .contact-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  /* ================= FOOTER ================= */
+  footer{
+    background:var(--coal); padding:34px 24px; text-align:center; border-top:3px solid var(--brown-deep);
+  }
+  .footer-brand{display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:10px;}
+  .footer-badge{width:28px; height:28px;}
+  footer p{font-size:12px; color:var(--cream); opacity:.55; letter-spacing:.5px;}
+  .elephant{
+    display:inline-block; width:16px; height:12px; margin-left:8px; opacity:.5; vertical-align:middle;
+    background:var(--sky-deep);
+    clip-path:polygon(10% 100%,10% 60%,0 60%,0 40%,20% 20%,40% 10%,70% 10%,90% 25%,100% 45%,100% 70%,85% 70%,85% 100%,70% 100%,70% 75%,35% 75%,35% 100%);
+  }
+
+  @media (max-width:640px){
+    .hero-inner{flex-direction:column; text-align:center;}
+    .hero-badges, .hero-actions{justify-content:center;}
+    .about-wrap{flex-direction:column;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-badge-wrap"><div class="nav-badge"><img src="assets/logo.png" alt="White's A/C logo"></div></div>
+    <div class="nav-name">WHITE'S A/C<span>HEATING · VENTILATION · AIR CONDITIONING</span></div>
+  </div>
+  <a href="tel:8139044333" class="nav-cta pixel">CALL (813) 904-4333</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="hero">
+  <div class="cloud-row">
+    <div class="pixel-cloud" style="width:34%; height:100%; left:-4%;"></div>
+    <div class="pixel-cloud" style="width:40%; height:80%; left:30%; opacity:.4;"></div>
+    <div class="pixel-cloud" style="width:34%; height:100%; right:-4%;"></div>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-badge-wrap">
+      <div class="hero-badge" id="heroBadge">
+        <img src="assets/logo.png" alt="White's A/C rotating badge">
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <span class="eyebrow pixel">TAMPA BAY'S HOMETOWN HVAC CREW</span>
+      <h1 class="hero-headline">CRAFTSMANSHIP<br>THE WAY <em>YOU</em><br>REMEMBER IT</h1>
+      <p class="hero-sub">Heating, ventilating & air conditioning done the old-fashioned way — showed up, done right, no shortcuts. From tune-ups to full installs, White's A/C keeps your home comfortable in every season.</p>
+      <div class="hero-badges">
+        <span class="mini-badge">LICENSED</span>
+        <span class="mini-badge">INSURED</span>
+        <span class="mini-badge">LIC# CAC1824173</span>
+      </div>
+      <div class="hero-actions">
+        <a href="tel:8139044333" class="btn btn-primary pixel">📞 CALL NOW</a>
+        <a href="#contact" class="btn btn-ghost pixel">GET A QUOTE</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint pixel">SCROLL<div class="chev"></div></div>
+</header>
+
+<!-- ================= SERVICES ================= -->
+<section class="services">
+  <div class="section-head">
+    <div class="section-eyebrow">WHAT WE DO</div>
+    <h2 class="section-title">Full-Service <span>HVAC</span>, Front To Back</h2>
+    <p class="section-desc">One crew, every job — repairs, upkeep, new installs, and the air quality upgrades that actually make a difference.</p>
+  </div>
+  <div class="service-grid" id="serviceGrid">
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>SERVICE</h3>
+      <p>Fast, honest repairs when your system's acting up — diagnosed right the first time.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛠️</div>
+      <h3>MAINTENANCE</h3>
+      <p>Seasonal tune-ups that catch small problems before they become expensive ones.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <h3>INSTALLS</h3>
+      <p>New system installs sized and set up right, built to run clean for years.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌬️</div>
+      <h3>AIR QUALITY</h3>
+      <p>Filtration and ventilation upgrades so the air inside is actually worth breathing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about">
+  <div class="about-wrap">
+    <div class="about-frame-wrap">
+      <div class="about-frame" id="aboutFrame">
+        <img src="assets/banner.png" alt="White's A/C — service, maintenance, installs, air quality">
+      </div>
+    </div>
+    <div class="about-copy">
+      <div class="section-eyebrow">THE WHITE'S A/C DIFFERENCE</div>
+      <h3>Built On A Handshake, Backed By The Paperwork</h3>
+      <p>White's A/C brings back the kind of service you don't see much anymore — a technician who shows up when he says he will, explains what's actually wrong, and fixes it right without padding the bill.</p>
+      <p>Every job is backed by a fully licensed and insured operation, so you get old-school craftsmanship with modern accountability.</p>
+      <div class="license-strip">
+        <span class="license-chip">LICENSED</span>
+        <span class="license-chip">INSURED</span>
+        <span class="license-chip">LIC# CAC1824173</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY CHOOSE ================= -->
+<section class="why">
+  <div class="section-head">
+    <div class="section-eyebrow">WHY HOMEOWNERS CALL WHITE'S</div>
+    <h2 class="section-title">Comfort You Can <span>Count On</span></h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-mark">✓</div>
+      <p><strong>Straight Answers</strong>Clear explanations before any work starts — no confusing jargon, no surprise line items.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-mark">✓</div>
+      <p><strong>Licensed & Insured</strong>Fully licensed under CAC1824173, so every job is covered and done to code.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-mark">✓</div>
+      <p><strong>All-Season Coverage</strong>Heating, ventilation, and cooling handled by the same crew, year-round.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-mark">✓</div>
+      <p><strong>Air Quality Focused</strong>We don't just cool the air — we help make sure it's healthy to breathe.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="contact-badge-wrap"><div class="contact-badge"><img src="assets/logo.png" alt="White's A/C badge"></div></div>
+  <h2>Ready When You Are</h2>
+  <a href="tel:8139044333" class="phone-big">(813) 904-4333</a>
+  <p class="contact-sub">Call now for service, maintenance, installs, or an air quality check-up. Email works too — we'll get back to you fast.</p>
+  <div class="contact-actions">
+    <a href="tel:8139044333" class="btn btn-primary pixel">📞 CALL NOW</a>
+    <a href="mailto:Whites.ac.2025@gmail.com" class="btn btn-ghost pixel">✉ EMAIL US</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <img class="footer-badge" src="assets/logo.png" alt="White's A/C">
+    <span class="pixel" style="font-size:10px; color:var(--gold-bright);">WHITE'S A/C</span>
+  </div>
+  <p>Licensed &amp; Insured · LIC# CAC1824173 · Whites.ac.2025@gmail.com<span class="elephant" title="est. detail"></span></p>
+</footer>
+
+<script>
+  // Hero badge: continuous 3D rotation tied to scroll position
+  const heroBadge = document.getElementById('heroBadge');
+  const hero = document.getElementById('hero');
+  function onScroll(){
+    const y = window.scrollY;
+    const rotY = (y * 0.6) % 360;
+    const rotX = Math.sin(y * 0.002) * 8;
+    heroBadge.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+
+    // parallax on sun glow via hero background position
+    const heroRect = hero.getBoundingClientRect();
+    const progress = Math.min(Math.max(-heroRect.top / window.innerHeight, 0), 1);
+    hero.style.backgroundPosition = `center ${progress * 20}px`;
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // 3D tilt on service cards
+  document.querySelectorAll('.service-card').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `rotateY(${px*18}deg) rotateX(${-py*18}deg) translateZ(10px)`;
+    });
+    card.addEventListener('mouseleave', ()=>{
+      card.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+    });
+  });
+
+  // 3D tilt on about frame
+  const aboutFrame = document.getElementById('aboutFrame');
+  aboutFrame.addEventListener('mousemove', e=>{
+    const r = aboutFrame.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    aboutFrame.style.transform = `rotateY(${px*14}deg) rotateX(${-py*14}deg)`;
+  });
+  aboutFrame.addEventListener('mouseleave', ()=>{
+    aboutFrame.style.transform = 'rotateY(0deg) rotateX(0deg)';
+  });
+
+  // Reveal-on-scroll for sections
+  const revealTargets = document.querySelectorAll('.service-card, .why-item, .about-wrap');
+  revealTargets.forEach(el=>{ el.style.opacity = 0; el.style.transform += ' translateY(24px)'; el.style.transition = 'opacity .6s ease, transform .6s ease'; });
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.style.opacity = 1;
+        entry.target.style.transform = entry.target.style.transform.replace(' translateY(24px)', ' translateY(0)');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealTargets.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
