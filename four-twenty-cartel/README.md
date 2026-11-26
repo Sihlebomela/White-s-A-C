@@ -2,6 +2,10 @@
 
 A scroll-driven dispensary site built from `../RECREATE_PROMPT.md`. Open `index.html` through any static server, for example `python3 -m http.server` run in this folder. It has no build step, and GSAP, ScrollTrigger and Lenis are bundled in `vendor/`.
 
+## Photos
+
+The gallery, product, and interior slots currently hold placeholder stock photos (see `CREDITS.md`). Replace them with the client's own photos when available: just overwrite the files at the same paths.
+
 ## Adding real photos
 
 Every image slot below shows a styled stand-in until a file exists at that path. Drop the file in and it replaces the stand-in automatically, with no code changes.

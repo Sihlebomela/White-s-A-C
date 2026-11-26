@@ -318,6 +318,13 @@ img{display:block;max-width:100%}
   box-shadow:inset 0 0 0 1px rgba(214,180,90,.45),inset 0 0 0 7px #060b0a,inset 0 0 0 8px rgba(214,180,90,.25),0 40px 80px rgba(0,0,0,.6);
   background-size:cover;background-position:center}
 .frame.has-img>*{display:none}
+.frame.has-img::before{display:none}
+.frame.has-img::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 50%,transparent 35%,rgba(4,12,10,.8) 100%),
+    linear-gradient(160deg,rgba(25,226,122,.14),rgba(18,56,201,.18));
+  box-shadow:inset 0 0 0 1px rgba(214,180,90,.45),inset 0 0 0 7px #060b0a,inset 0 0 0 8px rgba(214,180,90,.25)}
+.frame.has-img{filter:saturate(1.1) contrast(1.05) brightness(.92)}
+.card-img.has-img::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(7,16,13,.05),rgba(7,16,13,.45)),linear-gradient(160deg,rgba(25,226,122,.12),transparent 60%)}
 .spot{position:absolute;left:50%;top:-6%;width:72%;height:90%;transform:translateX(-50%);
   background:conic-gradient(from 160deg at 50% 0%,transparent 0deg,rgba(200,255,220,.28) 16deg,rgba(200,255,220,.28) 24deg,transparent 40deg);
   filter:blur(6px)}
@@ -381,6 +388,7 @@ img{display:block;max-width:100%}
 .foot-mark{font-family:var(--script);font-size:clamp(30px,4vw,46px);color:#d9ffe9;
   text-shadow:0 0 6px rgba(25,226,122,.9),0 0 22px rgba(25,226,122,.6)}
 .foot-line{margin-top:6px;font-size:11px;color:var(--muted)}
+.foot-copy a{text-decoration:underline}
 .foot-copy{margin-top:18px;font-size:10px;color:rgba(242,239,230,.35)}
 
 /* =========================================================
