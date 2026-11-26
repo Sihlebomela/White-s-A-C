@@ -1,4 +1,4 @@
-# Lumen Leaf (temporary brand name)
+# Four Twenty Cartel
 
 A scroll-driven dispensary site built from `../RECREATE_PROMPT.md`. Open `index.html` through any static server, for example `python3 -m http.server` run in this folder. It has no build step, and GSAP, ScrollTrigger and Lenis are bundled in `vendor/`.
 
@@ -15,7 +15,7 @@ Every image slot below shows a styled stand-in until a file exists at that path.
 | `assets/interior.jpg` | Background of the "Take the feeling with you." section |
 
 ## Placeholders to replace
-- Brand name "Lumen Leaf" / "LUMEN LEAF" (find and replace across `index.html`)
+- Brand name is now Four Twenty Cartel; still confirm spelling and logo with the client
 - Address, city, hours, rating and phone number in the hero sign, the visit section and the footer
 - Product names "Plum Velvet" and "Midnight Sherbet"
 - The `tel:` and Google Maps links

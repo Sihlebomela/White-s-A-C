@@ -1,5 +1,5 @@
 /* =========================================================
-   LUMEN LEAF — main.js
+   FOUR TWENTY CARTEL — main.js
    GSAP + ScrollTrigger + Lenis (vendored in /vendor)
    ========================================================= */
 (() => {

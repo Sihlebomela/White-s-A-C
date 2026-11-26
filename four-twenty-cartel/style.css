@@ -1,5 +1,5 @@
 /* =========================================================
-   LUMEN LEAF — style.css
+   FOUR TWENTY CARTEL — style.css
    ========================================================= */
 :root{
   --bg:#07100d;
@@ -41,11 +41,11 @@ img{display:block;max-width:100%}
 /* ---------- shared type ---------- */
 .wm{
   font-family:var(--serif);font-weight:500;
-  font-size:clamp(18px,2.1vw,28px);
-  letter-spacing:.35em;text-indent:.35em;
+  font-size:clamp(15px,1.9vw,26px);
+  letter-spacing:.32em;text-indent:.32em;
   color:var(--cream);
 }
-.wm.small{font-size:13px;letter-spacing:.32em}
+.wm.small{font-size:12px;letter-spacing:.28em;text-indent:0}
 .tag,.eyebrow{
   font-family:var(--sans);font-weight:600;
   font-size:10px;letter-spacing:.3em;
@@ -169,7 +169,7 @@ img{display:block;max-width:100%}
   display:flex;flex-direction:column;align-items:center;justify-content:center}
 .sign{
   position:relative;z-index:3;
-  font-family:var(--script);font-size:clamp(34px,8vw,128px);line-height:1;
+  font-family:var(--script);font-size:clamp(26px,6vw,96px);line-height:1.15;white-space:nowrap;padding:0 .25em;
   background:linear-gradient(180deg,#ffffff 0%,#e7e9ef 45%,#a9afbd 55%,#f6f7fa 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(.04em .05em 0 #2b2f3a) drop-shadow(.06em .08em .08em rgba(0,0,0,.6));
@@ -337,7 +337,7 @@ img{display:block;max-width:100%}
 .jar .bud{position:absolute;left:28%;top:-30%;width:44%;aspect-ratio:1;border-radius:50%;
   background:radial-gradient(circle at 30% 30%,#a7c84a 0 10%,transparent 12%),radial-gradient(circle at 70% 40%,#7fa63a 0 12%,transparent 14%),
     radial-gradient(circle at 45% 70%,#c58d3a 0 6%,transparent 8%),radial-gradient(circle,#6e9a32,#3f6620 70%)}
-.jar .label{top:34%;font-size:clamp(14px,2.2vw,30px);color:#18a85b;text-shadow:1px 1px 0 #0b4f2a}
+.jar .label{top:32%;font-size:clamp(10px,1.5vw,21px);color:#18a85b;text-shadow:1px 1px 0 #0b4f2a}
 /* bag */
 .bag{width:46%;height:58%;border-radius:8px 8px 14px 14px;
   background:linear-gradient(120deg,#b65bff,#7c1fe0 45%,#4b0d9e);box-shadow:inset 0 0 30px rgba(255,255,255,.18),0 0 40px rgba(139,44,255,.45)}
@@ -394,7 +394,10 @@ img{display:block;max-width:100%}
   .visit-bg{left:0}
   .visit-shade{background:linear-gradient(rgba(7,16,13,.72),rgba(7,16,13,.9))}
   .visit-copy{margin:0 16px}
-  .topbar .wm.small{font-size:11px;letter-spacing:.25em}
+  .topbar .wm.small{font-size:9px;letter-spacing:.16em}
+  .topbar-links{gap:12px}
+  .hero-wordmark .wm,.agegate .wm{font-size:14px;letter-spacing:.2em;text-indent:.2em}
+  .serif-title{letter-spacing:.16em;text-indent:.16em}
 }
 
 /* =========================================================
